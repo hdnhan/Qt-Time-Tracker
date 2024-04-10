@@ -6,6 +6,8 @@ This is a very simple Qt desktop application for time tracking.
 - `00:01` is total previous working time + current working time
 <img src="demo/start-up.png" width="300">
 
+Note: To start a new working session (ignore previous working time), just create a new `File path` in settings. For example: `/path/to/your/log/name1`, `/path/to/your/log/name2`, ...
+
 ### Settings
 Default settings are
 - Logging working time every `1` minutes
