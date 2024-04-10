@@ -212,7 +212,7 @@ class TimeTracker(QMainWindow):
         self.stop_action.setEnabled(True)
 
         self.current_working_timer.start(self.tracking_interval * 1000 * 60)
-        self.screenshot_timer.start(self.tracking_interval * 1000 * 60)
+        self.screenshot_timer.start(self.screen_shot_interval * 1000 * 60)
 
         data_file = Path(self.file_path + ".csv")
         if not data_file.exists():
