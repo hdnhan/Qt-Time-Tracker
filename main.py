@@ -201,6 +201,11 @@ class TimeTracker(QMainWindow):
         self.screen_shot_interval = int(self.settings.value("ScreenShotInterval"))
         self.tracking_interval = int(self.settings.value("TrackingInterval"))
 
+        # Update screen accordingly
+        self.current_working_label = QLabel("00:00", self)  # to update settings, need to stop the tracking
+        self.prev_working_hours, self.prev_working_minutes = self.get_previous_working_time()
+        self.total_working_label.setText(f"{self.prev_working_hours:02d}:{self.prev_working_minutes:02d}")
+
     def start_tracking(self) -> None:
         # Hide the start button
         self.start.hide()
