@@ -1,23 +1,25 @@
 This is a very simple Qt desktop application for time tracking.
 
-# Features
-## Start-up
+## Features
+### Start-up
 - `00:00` is current working time
-- `00:01` is total previous working time
-![Start up](demo/start-up.png)
+- `00:01` is total previous working time + current working time
+<img src="demo/start-up.png" width="300">
 
-## Settings
+### Settings
 Default settings are
 - Logging working time every `1` minutes
 - Capture screenshot every `30` minutes
 - Save log and screenshot to `File Path`
-![Settings](demo/settings.png)
+<img src="demo/settings.png" width="300">
 
-## Start and end working session
+### Start and end working session
 - Click `Start` to start working session
-![Start](demo/start.png)
+
+<img src="demo/start.png" width="300">
+
 - `Command + S` to stop working session => give a name for the session
-![End](demo/end.png)
+<img src="demo/end.png" width="300">
 
 
 # Development
