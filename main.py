@@ -17,7 +17,17 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QSpinBox,
 )
-from PySide6.QtGui import QCloseEvent, QColor, QPainter, QBrush, QPen, QPolygon, QPixmap, QAction
+from PySide6.QtGui import (
+    QCloseEvent,
+    QColor,
+    QPainter,
+    QBrush,
+    QPen,
+    QPolygon,
+    QPixmap,
+    QAction,
+    QGuiApplication,
+)
 from PySide6.QtCore import Qt, QTimer, QTime, QPoint, QEvent, QSize, QSettings
 import pandas as pd
 
@@ -29,15 +39,16 @@ class DescriptionDialog(QDialog):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setFixedSize(300, 100)
 
-        self.discription = QLineEdit(self)
-        self.discription.setPlaceholderText("Enter description")
-        self.discription.setMinimumHeight(40)
+        self.description = QLineEdit(self)
+        self.description.setPlaceholderText("Enter description")
+        self.description.setMinimumHeight(40)
+        self.description.setFocus()
 
         self.button_box = QDialogButtonBox(QDialogButtonBox.Save)
         self.button_box.accepted.connect(self.accept)
 
         layout = QVBoxLayout()
-        layout.addWidget(self.discription)
+        layout.addWidget(self.description)
         layout.addWidget(self.button_box)
         self.setLayout(layout)
 
@@ -61,6 +72,7 @@ class SettingsDialog(QDialog):
         )
         self.file_path_label = QLabel("File path")
         self.file_path = QLineEdit(self.settings.value("FilePath", default_path.as_posix()))
+        self.file_path.setFocus()
         layout.addWidget(self.file_path_label, 0, 0)
         layout.addWidget(self.file_path, 0, 1)
 
@@ -202,7 +214,7 @@ class TimeTracker(QMainWindow):
         self.tracking_interval = int(self.settings.value("TrackingInterval"))
 
         # Update screen accordingly
-        self.current_working_label = QLabel("00:00", self)  # to update settings, need to stop the tracking
+        self.current_working_label.setText("00:00")  # to update settings, need to stop the tracking
         self.prev_working_hours, self.prev_working_minutes = self.get_previous_working_time()
         self.total_working_label.setText(f"{self.prev_working_hours:02d}:{self.prev_working_minutes:02d}")
 
@@ -256,7 +268,15 @@ class TimeTracker(QMainWindow):
 
     def screenshot(self) -> None:
         name = datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + ".png"
-        screenshot = QApplication.primaryScreen().grabWindow(0)
+        # screenshot = QApplication.primaryScreen().grabWindow(0)
+        screen = QGuiApplication.primaryScreen()
+        window = self.windowHandle()
+        if window:
+            screen = window.screen()
+        if not screen:
+            print("No screen found")
+            return
+        screenshot = screen.grabWindow(0)
         Path(self.file_path).mkdir(parents=True, exist_ok=True)
         screenshot.save(self.file_path + "/" + name, "png")
 
@@ -289,7 +309,7 @@ class TimeTracker(QMainWindow):
         self.settings_action.setEnabled(True)
 
         self.description_dialog.exec()
-        description = self.description_dialog.discription.text()
+        description = self.description_dialog.description.text()
         data = pd.read_csv(self.file_path + ".csv")
         data.loc[data.index[-1], "description"] = description
         data.to_csv(self.file_path + ".csv", index=False)
@@ -298,9 +318,11 @@ class TimeTracker(QMainWindow):
         self.screenshot()
 
         # Update label
-        self.current_working_label.setText("00:00")
+        self.current_working_label.setText("00:00")  # to update settings, need to stop the tracking
+        self.prev_working_hours, self.prev_working_minutes = self.get_previous_working_time()
+        self.total_working_label.setText(f"{self.prev_working_hours:02d}:{self.prev_working_minutes:02d}")
         # self.setStyleSheet(f"background-color: {self.has_not_started_color.name()};")
-        self.description_dialog.discription.clear()
+        self.description_dialog.description.clear()
 
     def paintEvent(self, event: QEvent) -> None:
         # make a square
