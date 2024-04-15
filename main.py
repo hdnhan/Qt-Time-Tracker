@@ -259,6 +259,8 @@ class TimeTracker(QMainWindow):
 
         h = self.prev_working_hours + ch
         m = self.prev_working_minutes + cm
+        h += m // 60
+        m %= 60
         self.total_working_label.setText(f"{h:02d}:{m:02d}")
 
         # Only update end time in the database
@@ -293,6 +295,8 @@ class TimeTracker(QMainWindow):
             end_time = datetime.strptime(row["end_time"], "%Y-%m-%d %H:%M:%S")
             prev_working_hours += (end_time - start_time).seconds // 3600
             prev_working_minutes += ((end_time - start_time).seconds % 3600) // 60
+        prev_working_hours += prev_working_minutes // 60
+        prev_working_minutes %= 60
         return prev_working_hours, prev_working_minutes
 
     def stop_tracking(self) -> None:
