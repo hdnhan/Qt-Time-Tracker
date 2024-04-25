@@ -124,7 +124,7 @@ class TimeTracker(QMainWindow):
         self.has_started_color = QColor(230, 229, 229, 0.8)
         # self.setStyleSheet(f"background-color: {self.has_not_started_color.name()};")
 
-        self.start_time = QTime.currentTime()
+        self.start_time = datetime.now()
         self.settings = QSettings()
         self.settings_dialog = SettingsDialog(self.settings, self)
         if (
@@ -245,13 +245,12 @@ class TimeTracker(QMainWindow):
         # Capture a screenshot
         self.screenshot()
 
-        self.start_time = QTime.currentTime()
+        self.start_time = datetime.now()
         # self.setStyleSheet(f"background-color: {self.has_started_color.name()};")
 
     def update_working_time(self) -> None:
         """While doing work, update the current working time."""
-        current = QTime.currentTime()
-        seconds = self.start_time.secsTo(current)
+        seconds = (datetime.now() - self.start_time).seconds
 
         ch = seconds // 3600
         cm = (seconds % 3600) // 60
@@ -269,6 +268,7 @@ class TimeTracker(QMainWindow):
         data.to_csv(self.file_path + ".csv", index=False)
 
     def screenshot(self) -> None:
+        return
         name = datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + ".png"
         # screenshot = QApplication.primaryScreen().grabWindow(0)
         screen = QGuiApplication.primaryScreen()
