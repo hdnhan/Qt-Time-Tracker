@@ -24,16 +24,22 @@ set(PROJECT_SOURCES
         src/description.h
 )
 
+if (APPLE)
+    set(ICON ${CMAKE_CURRENT_SOURCE_DIR}/assets/timer.png)
+    set(MACOSX_BUNDLE_ICON_FILE timer.png)
+    set_source_files_properties(${ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+endif()
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(TimeTracker
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        ${ICON}
     )
     # https://doc.qt.io/qt-6/qt-add-resources.html
     qt_add_resources(TimeTracker "Resources"
         PREFIX "/Resources"
-        FILES assets/timer.png assets/start.png
+        FILES assets/start.png
     )
     # Configure logging level: https://doc.qt.io/qt-6/debug.html
     target_compile_definitions(TimeTracker PRIVATE QT_NO_DEBUG_OUTPUT=0)
