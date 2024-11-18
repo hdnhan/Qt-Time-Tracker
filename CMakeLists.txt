@@ -14,15 +14,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-set(PROJECT_SOURCES
-        src/main.cpp
-        src/mainwindow.cpp
-        src/mainwindow.h
-        src/settings.cpp
-        src/settings.h
-        src/description.cpp
-        src/description.h
-)
+file(GLOB_RECURSE PROJECT_SOURCES "src/*.cpp" "src/*.h")
 
 if (APPLE)
     set(ICON ${CMAKE_CURRENT_SOURCE_DIR}/assets/timer.png)

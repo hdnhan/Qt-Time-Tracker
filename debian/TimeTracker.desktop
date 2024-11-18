@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Time Tracker
+Type=Application
+Exec=/usr/bin/TimeTracker
+Icon=/usr/share/icons/timer.png
