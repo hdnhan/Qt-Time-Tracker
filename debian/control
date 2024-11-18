@@ -1,0 +1,9 @@
+Package: TimeTracker
+Version: 1.0
+Architecture: amd64
+Maintainer: Nhan Ho <hdnhan28@gmail.com>
+Description: A simple Qt application to track time spent on tasks.
+Homepage: https://github.com/hdnhan/TimeTracker
+Priority: optional
+Depends:
+Section: unknown
