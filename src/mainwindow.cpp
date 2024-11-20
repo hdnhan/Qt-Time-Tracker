@@ -208,6 +208,9 @@ void MainWindow::stopTracking() {
         return;
     }
 
+    // Reset the current working time
+    mCurrentWorkingTimeLabel.setText("00:00");
+
     // Write data to the csv file (Start Time,End Time,Total Time,Description)
     QTextStream out(&file);
     QStringList data = out.readAll().split("\n");
