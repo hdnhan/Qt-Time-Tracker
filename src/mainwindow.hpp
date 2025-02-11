@@ -1,6 +1,6 @@
 #pragma once
 
-#include "settings.h"
+#include "settings.hpp"
 #include <QDateTime>
 #include <QMainWindow>
 #include <QTimer>
