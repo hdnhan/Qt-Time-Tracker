@@ -1,4 +1,4 @@
-#include "description.h"
+#include "description.hpp"
 
 #include <QPushButton>
 
@@ -19,6 +19,8 @@ DescriptionDialog::DescriptionDialog(QString msg, QWidget *parent) : QDialog(par
     mLayout->addSpacing(20);
 
     mButtonBox.setStandardButtons(QDialogButtonBox::Cancel | QDialogButtonBox::Save);
+    mButtonBox.button(QDialogButtonBox::Save)->setObjectName("qt_save_button");
+    mButtonBox.button(QDialogButtonBox::Cancel)->setObjectName("qt_cancel_button");
     connect(mButtonBox.button(QDialogButtonBox::Save), &QPushButton::clicked, this,
             &DescriptionDialog::accept);
     connect(mButtonBox.button(QDialogButtonBox::Cancel), &QPushButton::clicked, this,

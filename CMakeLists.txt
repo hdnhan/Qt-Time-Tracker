@@ -11,10 +11,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+# CMAKE MODULES
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+include(CPM)
 
-file(GLOB_RECURSE PROJECT_SOURCES "src/*.cpp" "src/*.h")
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Test)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Test)
+
+file(GLOB_RECURSE PROJECT_SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 if (APPLE)
     set(ICON ${CMAKE_CURRENT_SOURCE_DIR}/assets/timer.png)
@@ -79,4 +83,23 @@ install(TARGETS TimeTracker
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(TimeTracker)
+endif()
+
+# Testing
+if(ENABLE_TESTING AND ENABLE_COVERAGE)
+    include(CodeCoverage)
+    append_coverage_compiler_flags()
+endif()
+
+if (ENABLE_TESTING)
+    # Create a library for testing
+    add_library(TimeTrackerLib STATIC ${PROJECT_SOURCES})
+    target_link_libraries(TimeTrackerLib PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+endif()
+
+if(ENABLE_TESTING)
+    cpmaddpackage("gh:google/googletest#v1.15.2")
+    include(CTest)
+    enable_testing()
+    add_subdirectory(tests)
 endif()

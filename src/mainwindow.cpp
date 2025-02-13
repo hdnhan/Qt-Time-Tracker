@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "description.h"
+#include "mainwindow.hpp"
+#include "description.hpp"
 #include <QCloseEvent>
 #include <QDebug>
 #include <QFile>
