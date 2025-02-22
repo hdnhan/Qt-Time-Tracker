@@ -17,6 +17,8 @@ include(CPM)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Test)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Test)
+message(STATUS "INFO 5: ${Qt5Core_INCLUDE_DIRS}")
+message(STATUS "INFO 6: ${Qt6Core_INCLUDE_DIRS}")
 
 file(GLOB_RECURSE PROJECT_SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
